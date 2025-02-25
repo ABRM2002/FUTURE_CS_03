@@ -11,25 +11,68 @@
 
 ## Steps For using Wireshark :-
 
+1. Setup Wireshark:-
+- Wireshark is a network protocol analyzer that lets you capture and interactively browse traffic running on a computer network.
+To install Wireshark, follow the steps for your operating system:
 
+- Linux: Run sudo apt install wireshark.
 
+- Windows/MacOS: Download it from the official Wireshark website and follow the installation instructions : https://www.wireshark.org/download.html
+---
+2. Capturing Network Traffic:-
+- Launch Wireshark and select the network interface you want to capture traffic on (e.g., eth0, wlan0).
+- Start capturing by clicking the blue shark fin icon.
+- Allow the capture to run for some time or until you see enough traffic for analysis.
+- Stop capturing by clicking the red square icon.
+---
+3. Loading the Capture for Analysis:-
+- If you’ve saved a previous capture, you can load it by going to File > Open and selecting your .pcap or .pcapng file.
+- For the walkthrough, let’s assume you’ve loaded a capture file. [ I just scanned the OWASP JUICE SHOP Website for example and saved the pcap file afterwards ]
+---
+4. Filter and Identify Suspicious Traffic:-
+- Start with common Wireshark filters to find interesting traffic. Use the display filter to narrow down the traffic you're analyzing:
+- TCP traffic on port 1514: tcp.port == 1514
+- TLS traffic on port 443: tcp.port == 443
+- TCP reset traffic: tcp.flags == 0x04
+- In this case, we found suspicious traffic to IP 103.162.246.81 on non-standard port 1514, which could be related to malware.
 
+              tcp.port == 1514 && ip.addr == 103.162.246.81
 
+- This filter will show only the traffic between the local host and the suspicious IP address 103.162.246.81.
+---
+5. Analyzing Suspicious Traffic:-
 
+- Check Packet Details
+- For each suspicious packet, click on it to see the detailed breakdown in the middle pane.
+- Look for data exchanged, unusual flags, or non-standard port usage.
 
+- Investigate the IP
+- After identifying traffic to IP 103.162.246.81, perform an OSINT investigation using tools like VirusTotal or abuseIPDB to check if this IP has been flagged for malicious activity.
+---
+6. Analyzing TLS Traffic:-
+- To investigate encrypted traffic
+- Use the following filter to isolate HTTPS traffic : tls
+- Analyze the destinations and the volume of the encrypted traffic to ensure it's legitimate. In this case, multiple external IPs were communicating with the host, which could be either normal web browsing or encrypted command-and-control (C2) communication.
+---
 
-
-
-
-
-
-
-
-
-
-
-
-
+7. Understanding TCP Reset Packets:-
+- TCP resets (RST flags) are used to abruptly terminate a connection. Analyze the source and destination of these packets.
+- In our case, the reset packet (RST flag) was sent from 52.26.51.69:443 to 192.168.29.249, which could indicate connection rejection or network scanning.
+---
+8. Root Cause Analysis:-
+- Suspicious Activity on Port 1514: Non-standard ports can indicate custom applications or malware C2 servers.
+- Ambiguous TLS Traffic: Encrypted traffic might be normal or indicative of data exfiltration.
+- The key suspicion here was the unusual traffic to IP 103.162.246.81 on port 1514. Further investigation is required to determine if this traffic is malicious.
+---
+9. Recommendations for Mitigation:-
+- Enhanced Monitoring: Ensure that network traffic is continuously monitored using tools like Splunk, Kibana, or SIEM solutions.
+- Deploy Intrusion Detection Systems (IDS/IPS): Set up both network and host-based detection systems to alert on unusual traffic, such as non-standard port usage.
+- Strengthen Endpoint Security: Ensure that all systems have up-to-date antivirus software and endpoint detection and response (EDR) tools.
+- Improve Firewall Rules: Review and limit outbound traffic to non-standard ports.
+- Implement Security Awareness Training: Train employees to recognize phishing, malware, and other common cyber threats.
+---
+10. Conclusion:-
+- This analysis was a preliminary investigation into suspicious network traffic involving a non-standard port and encrypted communication. The next steps would involve deeper packet capture analysis, checking system logs, and strengthening monitoring across the network.
 
 ---
 
@@ -107,4 +150,7 @@ By following the above steps, you should be able to:
 2. Detect large or unusual data transfers.
 3. Visualize the results using Splunk's built-in charting tools.
 
-   
+---
+
+## Screenshots :-
+
