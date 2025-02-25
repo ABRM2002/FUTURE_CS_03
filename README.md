@@ -154,7 +154,7 @@ By following the above steps, you should be able to:
 
 ## Screenshots :-
 
--  Screenshot Highlighting Suspicious Port 1514 Traffic:
+##  Screenshot Highlighting Suspicious Port 1514 Traffic:
 
  ![Screenshot 2025-02-19 114449](https://github.com/user-attachments/assets/7b42035d-ba98-454c-9361-084bdaa8e67d)
 
@@ -162,7 +162,7 @@ By following the above steps, you should be able to:
 
 ---
  
- -  Screenshot Showing TLS (HTTPS) Traffic on Port 443:
+ ##  Screenshot Showing TLS (HTTPS) Traffic on Port 443:
 
    ![Screenshot 2025-02-19 115130](https://github.com/user-attachments/assets/7152ece1-9809-43a0-8c01-ee48534be813)
 
@@ -170,7 +170,7 @@ By following the above steps, you should be able to:
 
 ---
 
--- Screenshot Showing TCP reset traffic:
+## Screenshot Showing TCP reset traffic:
 
   ![Screenshot 2025-02-19 115518](https://github.com/user-attachments/assets/c2ca3eca-daf6-4cfe-839e-5d0e5ca44e12)
 
