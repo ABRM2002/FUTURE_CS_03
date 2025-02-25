@@ -154,3 +154,28 @@ By following the above steps, you should be able to:
 
 ## Screenshots :-
 
+-  Screenshot Highlighting Suspicious Port 1514 Traffic:
+
+ ![Screenshot 2025-02-19 114449](https://github.com/user-attachments/assets/7b42035d-ba98-454c-9361-084bdaa8e67d)
+
+ - Suspicious Port 1514 Traffic: This screenshot highlights the unusual TCP communication between 192.168.29.249 and 103.162.246.81 on port 1514 (Packets 1,2, 26, 27). Port 1514 is not a standard service port and this traffic warrants further investigation.
+
+---
+ 
+ -  Screenshot Showing TLS (HTTPS) Traffic on Port 443:
+
+   ![Screenshot 2025-02-19 115130](https://github.com/user-attachments/assets/7152ece1-9809-43a0-8c01-ee48534be813)
+
+-  TLS (HTTPS) Traffic on Port 443:This screenshot shows examples of the TLSv1.2 "Application Data" packets (e.g., Packets 10, 11, 33, 34) observed in the capture.While HTTPS is common, the volume and destinations require further analysis to determine if it's related to normal web browsing or potentially malicious activity 
+
+---
+
+-- Screenshot Showing TCP reset traffic:
+
+  ![Screenshot 2025-02-19 115518](https://github.com/user-attachments/assets/c2ca3eca-daf6-4cfe-839e-5d0e5ca44e12)
+
+- TCP Reset (RST) Packet: Packet 6 in the capture is a TCP Reset (RST) packet sent from 52.26.51.69:443 to 192.168.29.249:53330. This indicates a TCP connection reset,which could be due to a connection rejection or network issue and needs to be considered in the analysis
+
+---
+
+
