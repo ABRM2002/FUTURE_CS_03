@@ -114,7 +114,7 @@ Upload the Dataset (train_data.csv):
 ### 3. Detect Failed Login Attempts:-
 - Search Query:
 
-We’ll detect failed login attempts by identifying events with more than three failed login attempts or where logged_in = 0.
+We’ll detect failed login attempts by identifying events with more than three failed login attempts or where logged_in = 0. classify by host and source ip
 
       index=_internal OR index=* num_failed_logins>3 OR logged_in=0 | stats count by host
 
@@ -122,6 +122,7 @@ We’ll detect failed login attempts by identifying events with more than three 
 - In the search bar, paste the above query.
 - Click Search.
 - You’ll see the hostnames with more than three failed login attempts or where users are not logged in.
+
 ---
 ### 4. Detect Unusual Data Transfers:-
 - Search Query:
@@ -178,4 +179,47 @@ By following the above steps, you should be able to:
 
 ---
 
+## Screenshot Showing result of Detect Failed Login Attempts:
+
+![Screenshot 2025-02-25 211616](https://github.com/user-attachments/assets/13617117-d4a9-4c32-81bc-18de25fdd7a5)
+
+- Another search on failed login attempts, visualizing the number of events over time. The events are grouped by the src_ip, focusing on unsuccessful login attempts.A graph or timechart shows the trend of failed logins, which may help identify abnormal behavior over a period.
+
+---
+
+## Screenshot Showing result of Detect Failed Login Attempts [Better query] :
+
+    index=_internal OR index=* num_failed_logins>3 OR logged_in=0 
+    | stats count as failed_login_count by host 
+    | where failed_login_count > 3
+    | sort -failed_login_count
+    | head 10
+
+
+![image](https://github.com/user-attachments/assets/1bcd1354-a0f8-42ad-b8b2-ac2c8c3fbf9d)
+
+
+- Filter conditions: The index=_internal OR index=* num_failed_logins>3 OR logged_in=0 still searches through internal logs or all indexes, looking for failed logins or users not logged in. You can refine this if you have specific indexes to search within.
+
+- Stats aggregation: We aggregate the data using stats count by host, which will group the events by host and count how many failed logins occurred for each host.
+
+- Where clause: This additional filter ensures only hosts with more than 3 failed login events (failed_login_count > 3) are returned. You can adjust this threshold as per your needs.
+
+- Sort: We sort the results in descending order based on the number of failed login events, prioritizing hosts with more failures.
+
+- Limit results: The head 10 command limits the output to the top 10 hosts, which can help prevent an overwhelming number of events. You can change the number to suit your needs.
+
+
+---
+## Screenshot Showing result of detect unusual data transfer:
+
+![image](https://github.com/user-attachments/assets/8de61994-2b47-4a1e-adfe-08157396492d)
+
+- The query and results in this screenshot help identify hosts (in this case, "AK") with large amounts of data transfer, specifically focusing on significant source and destination byte transfers, which can be crucial in analyzing potential network anomalies or data exfiltration during your cybersecurity incident response task.
+
+---
+## Screenshot Showing result of Data Visualization:
+  ![Screenshot 2025-02-25 225325](https://github.com/user-attachments/assets/aa18ae1b-68e9-4395-be70-28c928cacf0b)
+
+- A timechart visualizing failed logins grouped by time and host, with the results being truncated due to the volume of data. The graph shows various increments of failed logins over time.It suggests that a large number of failed login attempts were recorded, potentially hitting a limit on data visualization.
 
